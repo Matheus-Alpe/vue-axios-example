@@ -18,6 +18,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+import config from '../config'
 
 import TarefaSalvar from './TarefaSalvar.vue'
 import TarefasListaIten from './TarefasListaIten.vue'
@@ -31,6 +34,13 @@ export default {
         return {
             tarefas: []
         }
+    },
+
+    created() {
+        axios.get(`${config.apiURL}/tarefas`)
+            .then((response) => {
+                this.tarefas = response.data
+            })
     }
 }
 </script>
