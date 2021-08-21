@@ -29,11 +29,7 @@ export default {
     },
     data() {
         return {
-            tarefas: [
-                { id: 1, titulo: 'Aprender JavaScript', concluido: true },        
-                { id: 2, titulo: 'Aprender Vue', concluido: true },
-                { id: 3, titulo: 'Aprender Axios', concluido: false }
-            ]
+            tarefas: []
         }
     }
 }
