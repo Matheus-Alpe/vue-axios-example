@@ -13,7 +13,7 @@
             </div>
         </div>
 
-        <ul class="list-group" v-if="tarefas.length">
+        <ul class="list-group" v-if="tarefasOrdenadas.length">
             <TarefasListaIten
                 v-for="tarefa in tarefasOrdenadas"
                 :key="tarefa.id"
@@ -23,7 +23,9 @@
                 @concluir="editarTarefa" />
         </ul>
 
-        <p v-else>Nenhuma tarefa criada.</p>
+        <p v-else-if="!mensagemErro">Nenhuma tarefa criada.</p>
+        
+        <div class="alert alert-danger" v-else>{{ mensagemErro }}</div>
 
         <TarefaSalvar 
             v-if="exibirFormulario"
@@ -51,7 +53,8 @@ export default {
         return {
             tarefas: [],
             exibirFormulario: false,
-            tarefaSelecionada: undefined
+            tarefaSelecionada: undefined,
+            mensagemErro: undefined
         }
     },
 
@@ -72,12 +75,23 @@ export default {
 
     methods: {
         criarTarefa(tarefa) {
-            axios.post(`${config.apiURL}/tarefas`, tarefa)
-                .then((response) => {
-                    console.log('POST /tarefas', response)
-                    this.tarefas.push(response.data)
-                    this.resetar()
-                })
+            // axios.post(`${config.apiURL}/tarefas`, tarefa)
+            //     .then((response) => {
+            //         console.log('POST /tarefas', response)
+            //         this.tarefas.push(response.data)
+            //         this.resetar()
+            //     })
+
+            axios.request({
+                method: 'POST',
+                baseURL: config.apiURL,
+                url: '/tarefas',
+                data: tarefa
+            }).then((response) => {
+                console.log('POST /tarefas', response)
+                this.tarefas.push(response.data)
+                this.resetar()
+            })
         },
 
         editarTarefa(tarefa) {
@@ -129,6 +143,21 @@ export default {
             .then((response) => {
                 console.log('GET /tarefas', response)
                 this.tarefas = response.data
+            }, error => {
+                console.log('Erro capturado no then:', error)
+                return Promise.reject(error)
+            })
+            .catch(error => {
+                console.log('Erro capturado no catch:', error)
+                if (error.response) {
+                    this.mensagemErro = `Servidor retornou um erro: ${error.message} ${error.response.statusText}`
+                    console.log('Erro [resposta]:', error.response)
+                } else if (error.request) {
+                    this.mensagemErro = `Erro ao tentar comunicar com o servidor: ${error.message}`
+                    console.log('Erro [requisição]:', error.request)
+                } else {
+                    this.mensagemErro = `Erro ao fazer requisição ao servidor: ${error.message}`
+                }
             })
     }
 }

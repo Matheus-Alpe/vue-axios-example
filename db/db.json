@@ -19,6 +19,11 @@
       "id": 4,
       "titulo": "Aprender Vuex",
       "concluido": false
+    },
+    {
+      "titulo": "teste",
+      "concluido": true,
+      "id": 5
     }
   ]
 }
