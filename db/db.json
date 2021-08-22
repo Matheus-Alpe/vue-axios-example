@@ -19,16 +19,6 @@
       "id": 4,
       "titulo": "Aprender Vuex",
       "concluido": false
-    },
-    {
-      "titulo": "teste23",
-      "concluido": true,
-      "id": 5
-    },
-    {
-      "titulo": "teste 4",
-      "concluido": true,
-      "id": 6
     }
   ]
 }
