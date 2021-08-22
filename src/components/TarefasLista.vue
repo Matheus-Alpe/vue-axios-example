@@ -37,9 +37,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-
-import config from '../config'
+import axios from './../axios'
 
 import TarefaSalvar from './TarefaSalvar.vue'
 import TarefasListaIten from './TarefasListaIten.vue'
@@ -75,7 +73,7 @@ export default {
 
     methods: {
         criarTarefa(tarefa) {
-            // axios.post(`${config.apiURL}/tarefas`, tarefa)
+            // axios.post(`/tarefas`, tarefa)
             //     .then((response) => {
             //         console.log('POST /tarefas', response)
             //         this.tarefas.push(response.data)
@@ -84,7 +82,6 @@ export default {
 
             axios.request({
                 method: 'POST',
-                baseURL: config.apiURL,
                 url: '/tarefas',
                 data: tarefa
             }).then((response) => {
@@ -95,7 +92,7 @@ export default {
         },
 
         editarTarefa(tarefa) {
-            axios.put(`${config.apiURL}/tarefas/${tarefa.id}`, tarefa)
+            axios.put(`/tarefas/${tarefa.id}`, tarefa)
                 .then((response) => {
                     console.log(`PUT /tarefas/${tarefa.id}`, response)
                     const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
@@ -110,7 +107,7 @@ export default {
                 return
             }
 
-            axios.delete(`${config.apiURL}/tarefas/${tarefa.id}`)
+            axios.delete(`/tarefas/${tarefa.id}`)
                 .then((response) => {
                     console.log(`DELETE /tarefas/${tarefa.id}`, response)
                     const indice = this.tarefas.findIndex(t => t.id === tarefa.id)
@@ -139,7 +136,7 @@ export default {
     },
 
     created() {
-        axios.get(`${config.apiURL}/tarefas`)
+        axios.get(`/tarefas`)
             .then((response) => {
                 console.log('GET /tarefas', response)
                 this.tarefas = response.data
