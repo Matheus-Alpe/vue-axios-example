@@ -13,14 +13,18 @@ instance.interceptors.request.use(config => {
         ...config.data,
         curso: 'Vue JS'
     }
-    // return config
-    return new Promise((resolve) => {
-        console.log('Fazendo requisição aguardar...')
-        setTimeout(() => {
-            console.log('Enviando requisição...')
-            resolve(config)
-        }, 2000)
-    })
+
+    config.headers.common['Authorization'] = `Bearer token_jwt`
+    config.headers.put['Meu-Cabecalho'] = 'Valor do cabecalho'
+
+    return config
+    // return new Promise((resolve) => {
+    //     console.log('Fazendo requisição aguardar...')
+    //     setTimeout(() => {
+    //         console.log('Enviando requisição...')
+    //         resolve(config)
+    //     }, 2000)
+    // })
 }, (error) => {
     console.log('Erro ao fazer requisição', error)
     return Promise.reject(error)

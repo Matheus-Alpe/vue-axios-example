@@ -19,7 +19,8 @@
     {
       "id": 4,
       "titulo": "Aprender Vuex",
-      "concluido": false
+      "concluido": true,
+      "curso": "Vue JS"
     }
   ]
 }
